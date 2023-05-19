@@ -1,119 +1,131 @@
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-  }
-  body {
-    background-color: #8c52ff;
-  }
-  .container {
-    font-size: 16px;
-    background-color: #ffffff;
-    width: 90vw;
-    max-width: 34em;
+:root {
+	--cell-size: 150px;
+
+	--color: #81c3fd; /* for hover */
+	--color-set: #0275d8; /* when set */
+	--l: 10px; /* X line-width */
+}
+
+body {
+	margin: 0;
+    background-color: black;
+}
+
+h1 {
+    color: white;
+    text-align: center;padding:  2em 0;
+}
+
+p {
+    color: white;
     position: absolute;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
-    padding: 3em;
-    border-radius: 0.6em;
-    box-shadow: 0 1.2em 2.4em rgba(111, 85, 0, 0.25);
-  }
-  #options-container {
-    text-align: center;
-  }
-  #options-container div {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin: 1.2em 0 2.4em 0;
-  }
-  #options-container button {
-    padding: 0.6em 1.2em;
-    border: 3px solid #000000;
-    background-color: #ffffff;
-    color: #000000;
-    border-radius: 0.3em;
-    text-transform: capitalize;
-    cursor: pointer;
-  }
-  #options-container button:disabled {
-    border: 3px solid #808080;
-    color: #808080;
-    background-color: #efefef;
-  }
-  #options-container button.active {
-    background-color: #8c52ff;
-    border: 3px solid #000000;
-    color: #fff;
-  }
-  .letter-container {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.6em;
-  }
-  #letter-container button {
-    height: 2.4em;
-    width: 2.4em;
-    border-radius: 0.3em;
-    background-color: #ffffff;
-    cursor: pointer;
-  }
-  .new-game-popup {
-    background-color: #ffffff;
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    border-radius: 0.6em;
-  }
-  
-  #user-input-section {
-    display: flex;
-    justify-content: center;
-    font-size: 1.8em;
-    margin: 0.6em 0 1.2em 0;
-  }
-  canvas {
-    display: block;
-    margin: auto;
-    border: 10px solid #8c52ff;
-    border-radius: 10px;
-  }
-  .hide {
-    display: none;
-  }
-  #result-text h2 {
-    font-size: 1.8em;
-    text-align: center;
-  }
-  #result-text p {
-    font-size: 1.25em;
-    margin: 1em 0 2em 0;
-  }
-  #result-text span {
-    font-weight: 600;
-  }
-  #new-game-button {
-    font-size: 1.25em;
-    padding: 0.5em 1em;
-    background-color: #8c52ff;
-    border: 3px solid #000000;
-    color: #fff;
-    border-radius: 0.2em;
-    cursor: pointer;
-  }
-  .win-msg {
-    color: #39d78d;
-  }
-  .lose-msg {
-    color: #fe5152;
-  }
+    top: 3em;
+    left: 3em;
+    font-style: italic;
+}
+.board {
+	width: 100vw;
+	height: 100vh;
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	justify-items: center;
+	align-items: center;
+	grid-template-columns: repeat(3, auto);
+}
+
+.cell {
+	width: var(--cell-size);
+	height: var(--cell-size);
+	border: 3px solid green;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	cursor: pointer;
+    background-color: rgb(255, 255, 255);
+}
+
+/* remove border for edges */
+.cell:nth-child(1), .cell:nth-child(2), .cell:nth-child(3) {
+	border-top: none;
+}
+
+.cell:nth-child(1), .cell:nth-child(4), .cell:nth-child(7) {
+	border-left: none;
+}
+
+.cell:nth-child(3), .cell:nth-child(6), .cell:nth-child(9) {
+	border-right: none;
+}
+
+.cell:nth-child(7), .cell:nth-child(8), .cell:nth-child(9) {
+	border-bottom: none;
+}
+
+.cell.x, .cell.circle {
+	cursor: not-allowed;
+}
+
+/* for cross */
+.board.x .cell:not(.circle):not(.x):hover {
+	background: linear-gradient(to top right, transparent calc(50% - var(--l) / 2), var(--color) calc(50% - var(--l) / 2) calc(50% + var(--l) / 2), transparent calc(50% + var(--l) / 2)),
+				linear-gradient(to bottom right, transparent calc(50% - var(--l) / 2), var(--color) calc(50% - var(--l) / 2) calc(50% + var(--l) / 2), transparent calc(50% + var(--l) / 2));
+	background-size: 80% 80%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+/* for cross (set) */
+.cell:not(.circle).x {
+	background: linear-gradient(to top right, transparent calc(50% - var(--l) / 2), var(--color-set) calc(50% - var(--l) / 2) calc(50% + var(--l) / 2), transparent calc(50% + var(--l) / 2)),
+				linear-gradient(to bottom right, transparent calc(50% - var(--l) / 2), var(--color-set) calc(50% - var(--l) / 2) calc(50% + var(--l) / 2), transparent calc(50% + var(--l) / 2));
+	background-size: 80% 80%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+/* for circle */
+.board.circle .cell:not(.circle):not(.x):hover {	
+	background: radial-gradient(var(--color) 60%, transparent 60%);
+}
+
+/* for circle (set) */
+.cell:not(.x).circle {
+	background: radial-gradient(var(--color-set) 60%, transparent 60%);
+}
+
+.winning-message {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: var(--color-set);
+	justify-content: center;
+	align-items: center;
+	color: white;
+	font-size: 5rem;
+	font-family: 'Courier New', Courier, monospace;
+	flex-direction: column;
+}
+
+.winning-message button {
+	border-radius: 10px;
+	font-size: 3rem;
+	background-color: white;
+	border: 1px solid var(--color-set);
+	padding: .25em .5em;
+	cursor: pointer;
+}
+
+.winning-message button:hover {
+	background-color: var(--color-set);
+	color: white;
+	border-color: white;
+}
+
+.winning-message.show {
+	display: flex;
+}
